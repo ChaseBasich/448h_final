@@ -1,0 +1,8 @@
+
+#VS c++ ignores
+*.sdf
+*.opensdf
+*.suo
+*.vcxproj.user
+Instant_Instancing/ipch
+OpenMesh-4.1
