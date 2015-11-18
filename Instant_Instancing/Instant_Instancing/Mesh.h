@@ -6,8 +6,6 @@
 #include <OpenMesh/Core/IO/Options.hh>
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
-
-#include <GL\freeglut.h>
 #include "Transform.h"
 
 using namespace std;

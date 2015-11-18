@@ -11,8 +11,6 @@
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 
-#include <GL\freeglut.h>
-
 #include "Mesh.h"
 #include "Cube.h"
 #include "Transform.h"
