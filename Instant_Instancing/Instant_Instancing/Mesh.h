@@ -8,6 +8,7 @@
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 
 #include <GL\freeglut.h>
+#include "Transform.h"
 
 using namespace std;
 using namespace OpenMesh;
@@ -20,6 +21,8 @@ public:
 	Mesh();
 	~Mesh();
 	void Write(string fileName);
+
+	Mesh ApplyMatrix(Transform &t);
 
 protected:
 	TriMesh mesh;

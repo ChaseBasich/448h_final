@@ -6,3 +6,6 @@
 *.vcxproj.user
 Instant_Instancing/ipch
 OpenMesh-4.1
+Debug/
+
+*.off
