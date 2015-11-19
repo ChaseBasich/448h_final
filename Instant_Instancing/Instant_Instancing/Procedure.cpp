@@ -61,11 +61,11 @@ void Procedure::addInstance(Mesh &m)
 {
 	if (nonRandom){
 		if (steps.size() == 0)
-			//nonRandomMesh.insert(m, glm::mat4());
-			int dummy = 5;
-		else
-			//nonRandomMesh.insert(m, steps[0].transform);
-			int dummy = 5;
+			nonRandomMesh.Insert(m);
+		else {
+			m.ApplyMatrix(steps[0].transform);
+			nonRandomMesh.Insert(m);
+		}
 	}
 	else {
 		steps.push_back(procedureNode(INSTANCE));
@@ -86,7 +86,7 @@ void Procedure::addProcedure(Procedure &p, int n = 1)
 Mesh Procedure::eval()
 {
 	Mesh outMesh;
-	outMesh.insert(nonRandomMesh, glm::mat4());
+	outMesh.Insert(nonRandomMesh);
 	glm::mat4 currTransform = glm::mat4();
 	for (size_t i = 0; i < steps.size(); i++) {
 		switch (steps[i].type) {
@@ -94,9 +94,14 @@ Mesh Procedure::eval()
 			currTransform *= steps[i].transform;
 			break;
 		case INSTANCE:
-			outMesh.insert(steps[i].m, currTransform);
+			(*steps[i].m).ApplyMatrix(currTransform);
+			outMesh.Insert(*steps[i].m);
 			break;
 		default:
+			/*
+			float x, y, z;
+			size_t index = steps[i]
+			*/
 			switch (steps[i].type) {
 			case RTRANSLATE:
 				break;
