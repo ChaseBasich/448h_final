@@ -12,6 +12,8 @@ public:
 	void RotateY(double angle);
 	void RotateZ(double angle);
 
+	void Rotate(double angle, dvec3 &axis);
+
 	void Scale(double x, double y, double z);
 
 	void Translate(double x, double y, double z);

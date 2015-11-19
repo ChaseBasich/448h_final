@@ -20,6 +20,16 @@ Mesh Mesh::ApplyMatrix(Transform &t){
 
 		mesh.point(vh) = toOpenMesh(v);
 	}
+
+	for (auto it = subMeshes.begin(); it != subMeshes.end(); ++it) {
+		(*it)->ApplyMatrix(t);
+	}
+
+	return *this;
+}
+
+Mesh Mesh::Insert(Mesh &m) {
+	subMeshes.insert(new Mesh(m));
 	return *this;
 }
 
@@ -35,6 +45,9 @@ void Mesh::Write(string fileName) {
 		{
 			std::cerr << "Cannot write mesh to file "<< fileName << std::endl;
 		}
+		for (auto it = subMeshes.begin(); it != subMeshes.end(); ++it) {
+			(*it)->Write(fileName);
+		}
 	}
 	catch (std::exception& x)
 	{
@@ -44,4 +57,7 @@ void Mesh::Write(string fileName) {
 
 Mesh::~Mesh()
 {
+	for (auto it = subMeshes.begin(); it != subMeshes.end(); ++it) {
+		//delete *it;
+	}
 }
