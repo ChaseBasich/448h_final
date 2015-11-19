@@ -28,6 +28,22 @@ Mesh Mesh::ApplyMatrix(Transform &t){
 	return *this;
 }
 
+Mesh Mesh::ApplyMatrix(mat4 &m) {
+	for (TriMesh::VertexIter v_it = mesh.vertices_begin(); v_it != mesh.vertices_end(); ++v_it) {
+		const TriMesh::VertexHandle vh = (*v_it);
+		glm::vec4 v(toGLM(mesh.point(vh)));
+		v = m * v;
+
+		mesh.point(vh) = toOpenMesh(v);
+	}
+
+	for (auto it = subMeshes.begin(); it != subMeshes.end(); ++it) {
+		(*it)->ApplyMatrix(m);
+	}
+
+	return *this;
+}
+
 Mesh Mesh::Insert(Mesh &m) {
 	subMeshes.insert(new Mesh(m));
 	return *this;

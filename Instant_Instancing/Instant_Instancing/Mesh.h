@@ -22,6 +22,7 @@ public:
 	void Write(string fileName);
 
 	Mesh ApplyMatrix(Transform &t);
+	Mesh ApplyMatrix(mat4 &m);
 
 	Mesh Insert(Mesh &m);
 
