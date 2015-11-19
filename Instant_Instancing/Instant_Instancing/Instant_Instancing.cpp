@@ -26,12 +26,19 @@ typedef OpenMesh::TriMesh_ArrayKernelT<OpenMesh::DefaultTraits> TriMesh;
 int _tmain(int argc, _TCHAR* argv[])
 {
 	Cube c;
-	c.Write("output1.off");
+	Cube c2;
 	Transform t;
 	t.RotateX(45);
 	t.RotateY(45);
 	c.ApplyMatrix(t);
 	c.Write("output2.off");
+
+	c.Insert(c2);
+	Transform t2;
+	t2.Translate(10, 0, 0);
+	c.ApplyMatrix(t2);
+
+	c.Write("output3.off");
 
 	return 0;
 }

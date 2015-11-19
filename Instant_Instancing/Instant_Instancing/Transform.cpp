@@ -21,7 +21,17 @@ void Transform::RotateZ(double angle) {
 	m = rotate(m, angle, dvec3(0, 0, 1));
 }
 
+void Transform::Rotate(double angle, dvec3 &axis) {
+	m = rotate(m, angle, axis);
+}
 
+void Transform::Scale(double x, double y, double z) {
+	m = scale(m, dvec3(x, y, z));
+}
+
+void Transform::Translate(double x, double y, double z) {
+	m = translate(m, dvec3(x, y, z));
+}
 
 
 

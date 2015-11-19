@@ -7,6 +7,7 @@
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 #include "Transform.h"
+#include <unordered_set>
 
 using namespace std;
 using namespace OpenMesh;
@@ -22,7 +23,11 @@ public:
 
 	Mesh ApplyMatrix(Transform &t);
 
+	Mesh Insert(Mesh &m);
+
 protected:
 	TriMesh mesh;
+	
+	unordered_set<Mesh *> subMeshes;
 };
 
