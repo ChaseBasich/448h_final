@@ -4,7 +4,7 @@
 
 void Procedure::applyTransform(glm::mat4 &t)
 {
-	if (steps[steps.size() - 1].type == TRANSFORM)
+	if (steps.size() > 0 && steps[steps.size() - 1].type == TRANSFORM)
 		steps[steps.size() - 1].transform *= t;
 	else {
 		steps.push_back(procedureNode(TRANSFORM));
@@ -88,6 +88,7 @@ Mesh Procedure::eval()
 	Mesh outMesh;
 	outMesh.Insert(nonRandomMesh);
 	glm::mat4 currTransform = glm::mat4();
+
 	for (size_t i = 0; i < steps.size(); i++) {
 		switch (steps[i].type) {
 		case TRANSFORM:
@@ -99,18 +100,31 @@ Mesh Procedure::eval()
 			break;
 		default:
 			/*
-			float x, y, z;
-			size_t index = steps[i]
-			*/
+			size_t index = rand() % steps[i].xVals.size();
+			pair<float, float> vals = steps[i].xVals;
+			float x = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
+			
+			index = rand() % steps[i].yVals.size();
+			vals = steps[i].yVals;
+			float y = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
+			
+			index = rand() % steps[i].zVals.size();
+			vals = steps[i].zVals;
+			float z = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
+			
 			switch (steps[i].type) {
 			case RTRANSLATE:
+				currTransform *= glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
 				break;
 			case RROTATE:
 				break;
 			case RSCALE:
 				break;
 			}
+			*/
 			break;
 		}
 	}
+
+	return outMesh;
 }

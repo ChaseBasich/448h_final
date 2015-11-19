@@ -14,6 +14,7 @@
 #include "Mesh.h"
 #include "Cube.h"
 #include "Transform.h"
+#include "Procedure.h"
 
 
 using namespace std;
@@ -25,6 +26,17 @@ typedef OpenMesh::TriMesh_ArrayKernelT<OpenMesh::DefaultTraits> TriMesh;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	Cube c;
+	Procedure p1;
+	p1.addInstance(c);
+	p1.addTranslate(1, 0, 0);
+	p1.addRotate(1, 0, 0, 30);
+	Procedure p2;
+	p2.addProcedure(p1, 12);
+	Mesh output = p2.eval();
+	output.Write("Test.off");
+
+	/*
 	Cube c;
 	Cube c2;
 	Transform t;
@@ -39,6 +51,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	c.ApplyMatrix(t2);
 
 	c.Write("output3.off");
+	*/
 
 	return 0;
 }
