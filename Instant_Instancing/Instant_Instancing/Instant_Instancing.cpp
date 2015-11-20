@@ -9,7 +9,7 @@
 #define _USE_MATH_DEFINES
 #include <OpenMesh/Core/IO/Options.hh>
 #include <OpenMesh/Core/IO/MeshIO.hh>
-#include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
+#include <OpenMesh/Core/Mesh/PolyMesh_ArrayKernelT.hh>
 
 #include "Mesh.h"
 #include "Cube.h"
@@ -20,12 +20,13 @@
 using namespace std;
 using namespace OpenMesh;
 
-typedef OpenMesh::TriMesh_ArrayKernelT<OpenMesh::DefaultTraits> TriMesh;
+typedef OpenMesh::PolyMesh_ArrayKernelT<OpenMesh::DefaultTraits> PolyMesh;
 
 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	
 	Cube c;
 	Procedure p1;
 	p1.addInstance(c);
@@ -35,7 +36,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	p2.addProcedure(p1, 12);
 	Mesh output = p2.eval();
 	output.Write("Test.off");
-
+	
 	/*
 	Cube c;
 	Cube c2;
@@ -43,8 +44,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	t.RotateX(45);
 	t.RotateY(45);
 	c.ApplyMatrix(t);
-	c.Write("output2.off");
-
 	c.Insert(c2);
 	Transform t2;
 	t2.Translate(10, 0, 0);

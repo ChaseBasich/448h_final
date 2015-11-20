@@ -5,17 +5,17 @@
 Cube::Cube()
 {
 	// generate vertices
-	TriMesh::VertexHandle vhandle[8];
-	vhandle[0] = mesh.add_vertex(TriMesh::Point(-1, -1, 1));
-	vhandle[1] = mesh.add_vertex(TriMesh::Point(1, -1, 1));
-	vhandle[2] = mesh.add_vertex(TriMesh::Point(1, 1, 1));
-	vhandle[3] = mesh.add_vertex(TriMesh::Point(-1, 1, 1));
-	vhandle[4] = mesh.add_vertex(TriMesh::Point(-1, -1, -1));
-	vhandle[5] = mesh.add_vertex(TriMesh::Point(1, -1, -1));
-	vhandle[6] = mesh.add_vertex(TriMesh::Point(1, 1, -1));
-	vhandle[7] = mesh.add_vertex(TriMesh::Point(-1, 1, -1));
+	PolyMesh::VertexHandle vhandle[8];
+	vhandle[0] = mesh.add_vertex(PolyMesh::Point(-1, -1, 1));
+	vhandle[1] = mesh.add_vertex(PolyMesh::Point(1, -1, 1));
+	vhandle[2] = mesh.add_vertex(PolyMesh::Point(1, 1, 1));
+	vhandle[3] = mesh.add_vertex(PolyMesh::Point(-1, 1, 1));
+	vhandle[4] = mesh.add_vertex(PolyMesh::Point(-1, -1, -1));
+	vhandle[5] = mesh.add_vertex(PolyMesh::Point(1, -1, -1));
+	vhandle[6] = mesh.add_vertex(PolyMesh::Point(1, 1, -1));
+	vhandle[7] = mesh.add_vertex(PolyMesh::Point(-1, 1, -1));
 	// generate (quadrilateral) faces
-	std::vector<TriMesh::VertexHandle>  face_vhandles;
+	std::vector<PolyMesh::VertexHandle>  face_vhandles;
 	face_vhandles.clear();
 	face_vhandles.push_back(vhandle[0]);
 	face_vhandles.push_back(vhandle[1]);
