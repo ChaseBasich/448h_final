@@ -3,6 +3,8 @@
 #include "Procedure.h"
 #include "Mesh.h"
 
+using namespace std;
+
 #pragma once
 class Parser
 {
@@ -10,11 +12,14 @@ public:
 	Parser() {}
 	~Parser() {}
 
-	void parseLine(std::string line);
+	bool parseFile(string fileName);//returns true on success
+	void parseLine(string line);
 
 private:
-	std::vector<std::string> tokenize(std::string str);
 
-	std::map<std::string, Procedure> procedures;
-	std::map<std::string, Mesh> meshes;
+	void tokenize(string str);
+
+	vector<string> tokens;
+	map<string, Procedure> procedures;
+	map<string, Mesh> meshes;
 };

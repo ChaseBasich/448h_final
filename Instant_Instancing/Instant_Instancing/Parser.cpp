@@ -3,17 +3,36 @@
 
 using namespace std;
 
+//returns true on success, false on failure
+bool Parser::parseFile(string fileName) {
+	fstream file;
+	file.open(fileName);
+
+	string line;
+
+	if (file.is_open()) {
+		while (getline(file, line)) {
+			parseLine(line);
+		}
+		file.close();
+		return true;
+	}
+	else {
+		cout << "Can't open file" << endl;
+		return false;
+	}
+}
+
 void Parser::parseLine(string line)
 {
-	vector<string> tokens = tokenize(line);
+	tokenize(line);
 	for (size_t i = 0; i < tokens.size(); i++) {
 		cout << tokens[i] << endl;
 	}
 }
 
-vector<string> Parser::tokenize(string str)
+void Parser::tokenize(string str)
 {
-	vector<string> tokens;
 	size_t spaceLoc = -1;
 
 	while (true) {
@@ -24,9 +43,9 @@ vector<string> Parser::tokenize(string str)
 			spaceLoc = nextSpaceLoc;
 		}
 		else
+		{
 			break;
+		}
 	}
 	tokens.push_back(str.substr(spaceLoc + 1));
-
-	return tokens;
 }
