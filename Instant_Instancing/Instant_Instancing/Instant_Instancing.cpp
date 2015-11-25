@@ -40,8 +40,14 @@ int _tmain(int argc, _TCHAR* argv[])
 	output.Write("Test.off");
 	*/
 
-	Cylinder c;
-	c.Write("Cylinder.off");
+	Sphere s; 
+	Sphere is(false);
+	Transform t;
+	t.Translate(5, 0, 0);
+	is.ApplyMatrix(t);
+	s.Insert(is);
+	s.Write("spheres.off");
+
 
 	/*
 	Cube c;

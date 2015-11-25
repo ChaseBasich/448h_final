@@ -3,7 +3,10 @@
 class Sphere : public Mesh
 {
 public:
-	Sphere();
+	Sphere(bool UV = true);
 	~Sphere();
+private:
+	void UVSphere();
+	void IcoSphere();
 };
 
