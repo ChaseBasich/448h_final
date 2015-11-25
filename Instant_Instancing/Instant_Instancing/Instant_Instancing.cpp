@@ -13,6 +13,7 @@
 
 #include "Mesh.h"
 #include "Cube.h"
+#include "Sphere.h"
 #include "Transform.h"
 #include "Procedure.h"
 
@@ -26,7 +27,7 @@ typedef OpenMesh::PolyMesh_ArrayKernelT<OpenMesh::DefaultTraits> PolyMesh;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	
+	/*
 	Cube c;
 	Procedure p1;
 	p1.addInstance(c);
@@ -36,7 +37,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	p2.addProcedure(p1, 12);
 	Mesh output = p2.eval();
 	output.Write("Test.off");
-	
+	*/
+
+	Sphere s;
+	s.Write("Sphere.off");
+
 	/*
 	Cube c;
 	Cube c2;
