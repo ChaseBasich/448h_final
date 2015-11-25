@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Procedure.h" />
@@ -94,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="Instant_Instancing.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Parser.cpp" />

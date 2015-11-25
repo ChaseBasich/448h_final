@@ -14,6 +14,7 @@
 #include "Mesh.h"
 #include "Cube.h"
 #include "Sphere.h"
+#include "Cylinder.h"
 #include "Transform.h"
 #include "Procedure.h"
 
@@ -39,8 +40,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	output.Write("Test.off");
 	*/
 
-	Sphere s;
-	s.Write("Sphere.off");
+	Cylinder c;
+	c.Write("Cylinder.off");
 
 	/*
 	Cube c;
