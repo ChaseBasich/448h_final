@@ -16,10 +16,9 @@ public:
 	void parseLine(string line);
 
 private:
+	vector<string> tokenize(string str);
 
-	void tokenize(string str);
-
-	vector<string> tokens;
 	map<string, Procedure> procedures;
 	map<string, Mesh> meshes;
+	Procedure *currProcedure;
 };

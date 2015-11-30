@@ -63,8 +63,9 @@ void Procedure::addInstance(Mesh &m)
 		if (steps.size() == 0)
 			nonRandomMesh.Insert(m);
 		else {
-			m.ApplyMatrix(steps[0].transform);
-			nonRandomMesh.Insert(m);
+			Mesh m2(m);
+			m2.ApplyMatrix(steps[0].transform);
+			nonRandomMesh.Insert(m2);
 		}
 	}
 	else {
@@ -95,21 +96,24 @@ Mesh Procedure::eval()
 			currTransform *= steps[i].transform;
 			break;
 		case INSTANCE:
-			(*steps[i].m).ApplyMatrix(currTransform);
-			outMesh.Insert(*steps[i].m);
+		{
+			Mesh m2(*steps[i].m);
+			m2.ApplyMatrix(currTransform);
+			outMesh.Insert(m2);
 			break;
+		}
 		default:
-			/*
+		{
 			size_t index = rand() % steps[i].xVals.size();
-			pair<float, float> vals = steps[i].xVals;
+			pair<float, float> vals = steps[i].xVals[index];
 			float x = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
 			
 			index = rand() % steps[i].yVals.size();
-			vals = steps[i].yVals;
+			vals = steps[i].yVals[index];
 			float y = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
 			
 			index = rand() % steps[i].zVals.size();
-			vals = steps[i].zVals;
+			vals = steps[i].zVals[index];
 			float z = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
 			
 			switch (steps[i].type) {
@@ -117,12 +121,19 @@ Mesh Procedure::eval()
 				currTransform *= glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
 				break;
 			case RROTATE:
-				break;
-			case RSCALE:
+			{
+				index = rand() % steps[i].degVals.size();
+				vals = steps[i].degVals[index];
+				float deg = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
+
+				currTransform *= glm::rotate(glm::mat4(1.0f), deg, glm::vec3(x, y, z));
 				break;
 			}
-			*/
+			case RSCALE:currTransform *= glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z));
+				break;
+			}
 			break;
+		}
 		}
 	}
 
