@@ -12,49 +12,60 @@ void Procedure::applyTransform(glm::mat4 &t)
 	}
 }
 
-void Procedure::applyRandomTransform(vector<pair<float, float>> *x, vector<pair<float, float>> *y, vector<pair<float, float>> *z, vector<pair<float, float>> *deg)
+void Procedure::applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z)
 {
-	steps[steps.size() - 1].xVals.swap(*x);
-	steps[steps.size() - 1].yVals.swap(*y);
-	steps[steps.size() - 1].zVals.swap(*z);
-	if (deg != nullptr)
-		steps[steps.size() - 1].degVals.swap(*deg);
+	steps[steps.size() - 1].xVals = x;
+	steps[steps.size() - 1].yVals = y;
+	steps[steps.size() - 1].zVals = z;
 }
 
-void Procedure::addTranslate(float x, float y, float z)
+void Procedure::applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z, pair<float, float> &deg)
 {
-	applyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z)));	
+	applyRandomTransform(x, y, z);
+	steps[steps.size() - 1].degVals = deg;
 }
 
-void Procedure::addTranslate(vector<pair<float, float>> &x, vector<pair<float, float>> &y, vector<pair<float, float>> &z)
+void Procedure::addTranslate(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z)
 {
-	nonRandom = false;
-	steps.push_back(procedureNode(RTRANSLATE));
-	applyRandomTransform(&x, &y, &z, nullptr);
+	if (x.first == x.second &&
+		y.first == y.second &&
+		z.first == z.second){
+		applyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(x.first, y.first, z.first)));
+	}
+	else {
+		nonRandom = false;
+		steps.push_back(procedureNode(RTRANSLATE));
+		applyRandomTransform(x, y, z);
+	}
 }
 
-void Procedure::addRotate(float x, float y, float z, float deg)
+void Procedure::addRotate(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z, pair<float, float> &deg)
 {
-	applyTransform(glm::rotate(glm::mat4(1.0f), deg, glm::vec3(x, y, z)));
+	if (x.first == x.second &&
+		y.first == y.second &&
+		z.first == z.second &&
+		deg.first == deg.second){
+		applyTransform(glm::rotate(glm::mat4(1.0f), deg.first, glm::vec3(x.first, y.first, z.first)));
+	}
+	else {
+		nonRandom = false;
+		steps.push_back(procedureNode(RROTATE));
+		applyRandomTransform(x, y, z, deg);
+	}
 }
 
-void Procedure::addRotate(vector<pair<float, float>> &x, vector<pair<float, float>> &y, vector<pair<float, float>> &z, vector<pair<float, float>> &deg)
+void Procedure::addScale(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z)
 {
-	nonRandom = false;
-	steps.push_back(procedureNode(RROTATE));
-	applyRandomTransform(&x, &y, &z, &deg);
-}
-
-void Procedure::addScale(float x, float y, float z)
-{
-	applyTransform(glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z)));
-}
-
-void Procedure::addScale(vector<pair<float, float>> &x, vector<pair<float, float>> &y, vector<pair<float, float>> &z)
-{
-	nonRandom = false;
-	steps.push_back(procedureNode(RSCALE));
-	applyRandomTransform(&x, &y, &z, nullptr);
+	if (x.first == x.second &&
+		y.first == y.second &&
+		z.first == z.second){
+		applyTransform(glm::scale(glm::mat4(1.0f), glm::vec3(x.first, y.first, z.first)));
+	}
+	else {
+		nonRandom = false;
+		steps.push_back(procedureNode(RSCALE));
+		applyRandomTransform(x, y, z);
+	}
 }
 
 void Procedure::addInstance(Mesh &m)
@@ -104,17 +115,9 @@ Mesh Procedure::eval()
 		}
 		default:
 		{
-			size_t index = rand() % steps[i].xVals.size();
-			pair<float, float> vals = steps[i].xVals[index];
-			float x = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
-			
-			index = rand() % steps[i].yVals.size();
-			vals = steps[i].yVals[index];
-			float y = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
-			
-			index = rand() % steps[i].zVals.size();
-			vals = steps[i].zVals[index];
-			float z = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
+			float x = (float)rand() / RAND_MAX * (steps[i].xVals.second - steps[i].xVals.first) + steps[i].xVals.first;
+			float y = (float)rand() / RAND_MAX * (steps[i].yVals.second - steps[i].yVals.first) + steps[i].yVals.first;
+			float z = (float)rand() / RAND_MAX * (steps[i].zVals.second - steps[i].zVals.first) + steps[i].zVals.first;
 			
 			switch (steps[i].type) {
 			case RTRANSLATE:
@@ -122,10 +125,7 @@ Mesh Procedure::eval()
 				break;
 			case RROTATE:
 			{
-				index = rand() % steps[i].degVals.size();
-				vals = steps[i].degVals[index];
-				float deg = (float)rand() / RAND_MAX * (vals.second - vals.first) + vals.first;
-
+				float deg = (float)rand() / RAND_MAX * (steps[i].degVals.second - steps[i].degVals.first) + steps[i].degVals.first;
 				currTransform *= glm::rotate(glm::mat4(1.0f), deg, glm::vec3(x, y, z));
 				break;
 			}

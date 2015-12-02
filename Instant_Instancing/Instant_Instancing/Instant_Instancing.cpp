@@ -15,6 +15,7 @@
 #include "Cube.h"
 #include "Transform.h"
 #include "Procedure.h"
+#include "Parser.h"
 
 
 using namespace std;
@@ -26,7 +27,7 @@ typedef OpenMesh::PolyMesh_ArrayKernelT<OpenMesh::DefaultTraits> PolyMesh;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	
+	/*
 	Cube c;
 	Procedure p1;
 	p1.addInstance(c);
@@ -36,6 +37,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	p2.addProcedure(p1, 12);
 	Mesh output = p2.eval();
 	output.Write("Test.off");
+	*/
 	
 	/*
 	Cube c;
@@ -51,6 +53,10 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	c.Write("output3.off");
 	*/
+
+	Parser parser;
+	string file = "C:/Users/VERGIL/Desktop/448h/test1.txt";
+	parser.parseFile(file);
 
 	return 0;
 }

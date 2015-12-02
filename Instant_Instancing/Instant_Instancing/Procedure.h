@@ -18,7 +18,7 @@ public:
 	struct procedureNode{
 		transformType type;
 		glm::mat4 transform;
-		vector<pair<float, float>> xVals, yVals, zVals, degVals;
+		pair<float, float> xVals, yVals, zVals, degVals;
 		Mesh *m;
 
 		procedureNode(transformType t): type(t) {}
@@ -27,14 +27,9 @@ public:
 	Procedure() : nonRandom(true) {}
 	~Procedure() {}
 
-	void addTranslate(float x, float y, float z);
-	void addTranslate(vector<pair<float, float>> &x, vector<pair<float, float>> &y, vector<pair<float, float>> &z);
-
-	void addRotate(float x, float y, float z, float deg);
-	void addRotate(vector<pair<float, float>> &x, vector<pair<float, float>> &y, vector<pair<float, float>> &z, vector<pair<float, float>> &deg);
-
-	void addScale(float x, float y, float z);
-	void addScale(vector<pair<float, float>> &x, vector<pair<float, float>> &y, vector<pair<float, float>> &z);
+	void addTranslate(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z);
+	void addRotate(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z, pair<float, float> &deg);
+	void addScale(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z);
 
 	void addInstance(Mesh &m);
 	void addProcedure(Procedure &p, int n);
@@ -47,7 +42,8 @@ public:
 
 private:
 	void applyTransform(glm::mat4 &t);
-	void applyRandomTransform(vector<pair<float, float>> *x, vector<pair<float, float>> *y, vector<pair<float, float>> *z, vector<pair<float, float>> *deg);
+	void applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z);
+	void applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z, pair<float, float> &deg);
 };
 
 /*

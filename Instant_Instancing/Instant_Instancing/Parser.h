@@ -12,11 +12,12 @@ public:
 	Parser() {}
 	~Parser() {}
 
-	bool parseFile(string fileName);//returns true on success
-	void parseLine(string line);
+	bool parseFile(string &fileName);//returns true on success
+	void parseLine(string &line);
 
 private:
-	vector<string> tokenize(string str);
+	vector<string> tokenize(string &str);
+	pair<float, float> parseVal(string &str);
 
 	map<string, Procedure> procedures;
 	map<string, Mesh> meshes;
