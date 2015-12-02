@@ -1,48 +1,13 @@
-﻿Build started 12/1/2015 4:33:20 PM.
+﻿Build started 12/1/2015 5:50:58 PM.
      1>Project "C:\Users\Chase\Documents\school\cs448h\448h_final\Instant_Instancing\Instant_Instancing\Instant_Instancing.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _SCL_SECURE_NO_WARNINGS /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\Instant_Instancing.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt /bigobj stdafx.cpp
-         stdafx.cpp
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _SCL_SECURE_NO_WARNINGS /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Instant_Instancing.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt /bigobj Cube.cpp Cylinder.cpp Instant_Instancing.cpp Mesh.cpp Parser.cpp Procedure.cpp Sphere.cpp Symbol.cpp SymbolicMatrix.cpp Transform.cpp
-         Transform.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _SCL_SECURE_NO_WARNINGS /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Instant_Instancing.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt /bigobj Instant_Instancing.cpp SymbolicMatrix.cpp
          SymbolicMatrix.cpp
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\symbolicmatrix.cpp(28): warning C4172: returning address of local variable or temporary
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\symbolicmatrix.cpp(39): warning C4172: returning address of local variable or temporary
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\symbolicmatrix.cpp(50): warning C4172: returning address of local variable or temporary
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\symbolicmatrix.cpp(209): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-         Symbol.cpp
-         Sphere.cpp
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(22): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(67): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(68): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(69): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(70): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(72): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(73): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(74): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(75): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(77): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(78): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(79): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\sphere.cpp(80): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-         Procedure.cpp
-         Parser.cpp
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\parser.cpp(49): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\parser.cpp(53): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\parser.cpp(55): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\parser.cpp(57): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\parser.cpp(59): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\parser.cpp(63): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-         Mesh.cpp
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\mesh.cpp(47): warning C4244: 'argument' : conversion from 'const float' to 'const int', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\mesh.cpp(48): warning C4244: 'argument' : conversion from 'const float' to 'const int', possible loss of data
-         Instant_Instancing.cpp
-         Cylinder.cpp
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\cylinder.cpp(24): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\cylinder.cpp(25): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-         Cube.cpp
+     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\symbolicmatrix.cpp(243): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
          Generating Code...
-     1>c:\users\chase\documents\school\cs448h\448h_final\instant_instancing\instant_instancing\parser.cpp(105): warning C4715: 'Parser::tokenize' : not all control paths return a value
+         Compiling...
+         Instant_Instancing.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Chase\Documents\school\cs448h\448h_final\Instant_Instancing\Debug\Instant_Instancing.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\VERGIL\Desktop\448h\448h_final\openmesh-4.1\Build\Build\lib" opengl32.lib OpenMeshCored.lib openmeshtoolsd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Chase\Documents\school\cs448h\448h_final\Instant_Instancing\Debug\Instant_Instancing.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Chase\Documents\school\cs448h\448h_final\Instant_Instancing\Debug\Instant_Instancing.lib" /MACHINE:X86 Debug\Cube.obj
          Debug\Cylinder.obj
@@ -55,10 +20,9 @@
          Debug\Symbol.obj
          Debug\SymbolicMatrix.obj
          Debug\Transform.obj
-         LINK : C:\Users\Chase\Documents\school\cs448h\448h_final\Instant_Instancing\Debug\Instant_Instancing.exe not found or not built by the last incremental link; performing full link
          Instant_Instancing.vcxproj -> C:\Users\Chase\Documents\school\cs448h\448h_final\Instant_Instancing\Debug\Instant_Instancing.exe
      1>Done Building Project "C:\Users\Chase\Documents\school\cs448h\448h_final\Instant_Instancing\Instant_Instancing\Instant_Instancing.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:19.21
+Time Elapsed 00:00:11.49

@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "SymbolicMatrix.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include "exprtk\exprtk.hpp"
 
@@ -9,7 +10,21 @@ typedef exprtk::symbol_table<double> symbol_table_t;
 typedef exprtk::expression<double> expression_t;
 typedef exprtk::parser<double> parser_t;
 
-SymbolicMatrix& SymbolicMatrix::operator* (SymbolicMatrix &m) {
+unordered_map<int, Symbol> SymbolicMatrix::AddSymbols(unordered_map<int, Symbol> s1, unordered_map<int, Symbol> s2){
+	unordered_map<int, Symbol> symbols;
+
+	for (auto it = s2.begin(); it != s2.end(); it++) {
+		symbols.insert(*it);
+	}
+
+	for (auto it = s1.begin(); it != s1.end(); it++) {
+		symbols.insert(*it);
+	}
+
+	return symbols;
+}
+
+SymbolicMatrix SymbolicMatrix::operator* (SymbolicMatrix &m) {
 	SymbolicMatrix copy;
 
 	for (int i = 0; i < NUM_ROWS; i++){
@@ -18,17 +33,22 @@ SymbolicMatrix& SymbolicMatrix::operator* (SymbolicMatrix &m) {
 
 			for (int x = 0; x < NUM_ROWS; x++) {
 				result += "(" + entries[i * NUM_ROWS + x];
-				result += ")*("; 
+				result += ")*(";
 				result += m.entries[n + x * NUM_ROWS] + ")";
+				if (x < NUM_ROWS - 1)
+				{
+					result += "+";
+				}
 			}
 			result += ")";
 			copy.entries[i * NUM_ROWS + n] = result;
 		}
 	}
+	copy.symbols = AddSymbols(symbols, m.symbols);
 	return copy;
 }
 
-SymbolicMatrix& SymbolicMatrix::operator+ (SymbolicMatrix &m) {
+SymbolicMatrix SymbolicMatrix::operator+ (SymbolicMatrix &m) {
 	SymbolicMatrix copy;
 
 	for (int i = 0; i < NUM_ROWS; i++){
@@ -36,10 +56,12 @@ SymbolicMatrix& SymbolicMatrix::operator+ (SymbolicMatrix &m) {
 			copy.entries[i * NUM_ROWS + n] = "(" + entries[i * NUM_ROWS + n] + ")+(" + m.entries[i * NUM_ROWS + n] + ")";
 		}
 	}
+
+	copy.symbols = AddSymbols(symbols, m.symbols);
 	return copy;
 }
 
-SymbolicMatrix& SymbolicMatrix::operator- (SymbolicMatrix &m) {
+SymbolicMatrix SymbolicMatrix::operator- (SymbolicMatrix &m) {
 	SymbolicMatrix copy;
 
 	for (int i = 0; i < NUM_ROWS; i++){
@@ -47,11 +69,20 @@ SymbolicMatrix& SymbolicMatrix::operator- (SymbolicMatrix &m) {
 			copy.entries[i * NUM_ROWS + n] = "(" + entries[i * NUM_ROWS + n] + ")-(" + m.entries[i * NUM_ROWS + n] + ")";
 		}
 	}
+
+	copy.symbols = AddSymbols(symbols, m.symbols);
 	return copy;
+}
+
+double SymbolicMatrix::toRadians(double angle) {
+	return angle * M_PI / 180;
 }
 
 SymbolicMatrix SymbolicMatrix::RotateX(double min, double max) {
 	SymbolicMatrix copy(*this);
+
+	min = toRadians(min);
+	max = toRadians(max);
 
 	int index = rand();
 	while (symbols.find(index) != symbols.end()) {
@@ -71,13 +102,16 @@ SymbolicMatrix SymbolicMatrix::RotateX(double min, double max) {
 	};
 
 	SymbolicMatrix temp(newEntries);
-	copy = temp * *this;
+	copy = temp * copy;
 
 	return copy;
 }
 
 SymbolicMatrix SymbolicMatrix::RotateY(double min, double max) {
 	SymbolicMatrix copy(*this);
+
+	min = toRadians(min);
+	max = toRadians(max);
 
 	int index = rand();
 	while (symbols.find(index) != symbols.end()) {
@@ -97,13 +131,16 @@ SymbolicMatrix SymbolicMatrix::RotateY(double min, double max) {
 	};
 
 	SymbolicMatrix temp(newEntries);
-	copy = temp * *this;
+	copy = temp * copy;
 
 	return copy;
 }
 
 SymbolicMatrix SymbolicMatrix::RotateZ(double min, double max) {
 	SymbolicMatrix copy(*this);
+
+	min = toRadians(min);
+	max = toRadians(max);
 
 	int index = rand();
 	while (symbols.find(index) != symbols.end()) {
@@ -123,7 +160,7 @@ SymbolicMatrix SymbolicMatrix::RotateZ(double min, double max) {
 	};
 
 	SymbolicMatrix temp(newEntries);
-	copy = temp * *this;
+	copy = temp * copy;
 
 	return copy;
 }
@@ -179,9 +216,6 @@ string SymbolicMatrix::replaceTrig(string equation) {
 */
 
 double SymbolicMatrix::evaluateString(string equation) {
-	//equation = replaceTrig(equation);
-
-	std::string expression_string = "clamp(-1.0,sin(2 * pi * x) + cos(x / 2 * pi),+1.0)";
 
 	symbol_table_t symbol_table;
 	for (auto it = symbols.begin(); it != symbols.end(); it++) {
@@ -237,6 +271,16 @@ SymbolicMatrix::SymbolicMatrix(glm::mat4 &m)
 
 SymbolicMatrix::SymbolicMatrix()
 {
+	for (int i = 0; i < 4; i++) {
+		for (int n = 0; n < 4; n++) {
+			if (i == n) {
+				entries[i * 4 + n] = "1";
+			}
+			else {
+				entries[i * 4 + n] = "0";
+			}
+		}
+	}
 }
 
 

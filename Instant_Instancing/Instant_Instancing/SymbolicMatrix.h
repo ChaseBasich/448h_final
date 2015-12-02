@@ -25,12 +25,15 @@ public:
 
 	glm::mat4 Eval();
 
-	SymbolicMatrix& operator* (SymbolicMatrix &m);
-	SymbolicMatrix& operator+ (SymbolicMatrix &m);
-	SymbolicMatrix& operator- (SymbolicMatrix &m);
+	SymbolicMatrix operator* (SymbolicMatrix &m);
+	SymbolicMatrix operator+ (SymbolicMatrix &m);
+	SymbolicMatrix operator- (SymbolicMatrix &m);
 
 private:
 	double evaluateString(string equation);
+	unordered_map<int, Symbol> AddSymbols(unordered_map<int, Symbol> s1, unordered_map<int, Symbol> s2);
+
+	double toRadians(double);
 	/*
 	string replaceNames(string equation);
 	string replaceTrig(string equation);

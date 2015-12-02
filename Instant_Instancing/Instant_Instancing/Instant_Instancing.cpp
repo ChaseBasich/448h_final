@@ -17,6 +17,7 @@
 #include "Cylinder.h"
 #include "Transform.h"
 #include "Procedure.h"
+#include "SymbolicMatrix.h"
 
 
 using namespace std;
@@ -28,18 +29,43 @@ typedef OpenMesh::PolyMesh_ArrayKernelT<OpenMesh::DefaultTraits> PolyMesh;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	SymbolicMatrix sm;
+	sm = sm.RotateX(25, 40);
+
+	mat4 m = sm.Eval();
+
+	for (int i = 0; i < 4; i++) {
+		for (int n = 0; n < 4; n++) {
+			cout << m[i][n] << endl;
+		}
+	}
+
+	cout << endl << endl;
+
+	m = sm.Eval();
+
+	for (int i = 0; i < 4; i++) {
+		for (int n = 0; n < 4; n++) {
+			cout << m[i][n] << endl;
+		}
+	}
+
+	
+	int unused;
+	cin >> unused;
+
 	/*
 	Cube c;
 	Procedure p1;
 	p1.addInstance(c);
-	p1.addTranslate(1, 0, 0);
+	p1.addTranslate(2, 0, 0);
 	p1.addRotate(1, 0, 0, 30);
 	Procedure p2;
 	p2.addProcedure(p1, 12);
 	Mesh output = p2.eval();
 	output.Write("Test.off");
-	*/
-
+	
+	
 	Sphere s; 
 	Sphere is(false);
 	Transform t;
@@ -49,7 +75,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	s.Write("spheres.off");
 
 
-	/*
+	
 	Cube c;
 	Cube c2;
 	Transform t;
