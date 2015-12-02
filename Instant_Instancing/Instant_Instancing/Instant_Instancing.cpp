@@ -19,7 +19,6 @@
 #include "Transform.h"
 #include "Procedure.h"
 #include "SymbolicMatrix.h"
-#include <glm\gtc\matrix_transform.hpp>
 
 
 using namespace std;
@@ -33,37 +32,8 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	srand(time(NULL));
 
-	SymbolicMatrix sm;
-	sm = sm.RotateZ(60, 60);
-	sm = sm.Translate(5, 5, 5, 5, 5, 5);
-	sm = sm.Scale(2, 2, 1, 1, 1, 1);
-
-	dmat4 m = sm.Eval();
-
-	for (int i = 0; i < 4; i++) {
-		for (int n = 0; n < 4; n++) {
-			cout << m[n][i] << endl;
-		}
-	}
-
-	cout << endl << endl;
-
-	m = dmat4();
-	m = glm::rotate(m, 1.0472, dvec3(0.0, 0.0, 1.0));
-	m = glm::translate(m, dvec3(5, 5, 5));
-	m = glm::scale(m, dvec3(2, 1, 1));
-
-	for (int i = 0; i < 4; i++) {
-		for (int n = 0; n < 4; n++) {
-			cout << m[n][i] << endl;
-		}
-	}
 
 	
-	int unused;
-	cin >> unused;
-
-	/*
 	Cube c;
 	Procedure p1;
 	p1.addInstance(c);
@@ -74,7 +44,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Mesh output = p2.eval();
 	output.Write("Test.off");
 	
-	
+	/*
 	Sphere s; 
 	Sphere is(false);
 	Transform t;
