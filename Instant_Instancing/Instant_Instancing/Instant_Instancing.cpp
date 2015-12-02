@@ -28,11 +28,15 @@ typedef OpenMesh::PolyMesh_ArrayKernelT<OpenMesh::DefaultTraits> PolyMesh;
 int _tmain(int argc, _TCHAR* argv[])
 {
 	/*
+	pair<float, float> zero(0, 0);
+	pair<float, float> one(1, 1);
+	pair<float, float> thirty(30, 30);
+
 	Cube c;
 	Procedure p1;
 	p1.addInstance(c);
-	p1.addTranslate(1, 0, 0);
-	p1.addRotate(1, 0, 0, 30);
+	p1.addTranslate(one, zero, zero);
+	p1.addRotate(one, zero, zero, thirty);
 	Procedure p2;
 	p2.addProcedure(p1, 12);
 	Mesh output = p2.eval();
@@ -57,7 +61,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Parser parser;
 	string file = "C:/Users/VERGIL/Desktop/448h/test1.txt";
 	parser.parseFile(file);
-
+	
 	return 0;
 }
 

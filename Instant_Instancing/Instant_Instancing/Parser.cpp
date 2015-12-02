@@ -49,7 +49,7 @@ void Parser::parseLine(string &line)
 		currProcedure->addTranslate(parseVal(tokens[1]), parseVal(tokens[2]), parseVal(tokens[3]));
 	}
 	else if (tokens[0].compare("Rotate") == 0) {
-		pair<float, float> zero(1, 1);
+		pair<float, float> zero(0, 0);
 		pair<float, float> one(1, 1);
 		if (tokens[1].compare("X") == 0) {
 			currProcedure->addRotate(one, zero, zero, parseVal(tokens[2]));

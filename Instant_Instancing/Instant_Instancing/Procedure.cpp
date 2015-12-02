@@ -2,6 +2,8 @@
 #include "Procedure.h"
 #include <glm/gtc/matrix_transform.hpp>
 
+#define DEGREES_TO_RADIANS 0.01745329251994329576923690768489
+
 void Procedure::applyTransform(glm::mat4 &t)
 {
 	if (steps.size() > 0 && steps[steps.size() - 1].type == TRANSFORM)
@@ -41,6 +43,9 @@ void Procedure::addTranslate(pair<float, float> &x, pair<float, float> &y, pair<
 
 void Procedure::addRotate(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z, pair<float, float> &deg)
 {
+	deg.first *= DEGREES_TO_RADIANS;
+	deg.second *= DEGREES_TO_RADIANS;
+
 	if (x.first == x.second &&
 		y.first == y.second &&
 		z.first == z.second &&
@@ -91,7 +96,11 @@ void Procedure::addProcedure(Procedure &p, int n = 1)
 	steps.reserve(steps.size() + n * p.steps.size());
 	for (int i = 0; i < n; i++) {
 		addInstance(p.nonRandomMesh);
-		steps.insert(steps.end(), p.steps.begin(), p.steps.end());
+		
+		if (nonRandom &&steps.size() != 0 && p.steps.size() != 0)
+			steps[0].transform *= p.steps[0].transform;
+		else
+			steps.insert(steps.end(), p.steps.begin(), p.steps.end());
 	}
 }
 
