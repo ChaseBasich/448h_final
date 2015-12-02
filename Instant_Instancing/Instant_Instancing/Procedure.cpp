@@ -6,9 +6,20 @@
 
 void Procedure::applyTransform(glm::mat4 &t)
 {
-	if (steps.size() > 0 && steps.back().type == TRANSFORM)
-		steps.back().transform = t * steps.back().transform;
-	else {
+	bool added = false;
+
+	if (steps.size() > 0) {
+		if (steps.back().type == SYMBOLIC) {
+			steps.back().smat = SymbolicMatrix(t) * steps.back().smat;
+			added = true;
+		}
+		else if (steps.back().type == TRANSFORM) {
+			steps.back().transform = t * steps.back().transform;
+			added = true;
+		}
+	}
+
+	if (!added) {
 		steps.push_back(procedureNode(TRANSFORM));
 		steps.back().transform = t;
 	}
@@ -17,8 +28,24 @@ void Procedure::applyTransform(glm::mat4 &t)
 void Procedure::applyRandomTransform(SymbolicMatrix &smat)
 {
 	nonRandom = false;
-	steps.push_back(SYMBOLIC);
-	steps.back().smat = smat;
+	bool added = false;
+
+	if (steps.size() > 0) {
+		if (steps.back().type == SYMBOLIC) {
+			steps.back().smat = smat * steps.back().smat;
+			added = true;
+		}
+		else if (steps.back().type == TRANSFORM) {
+			steps.back().type = SYMBOLIC;
+			steps.back().smat = smat * SymbolicMatrix(steps.back().transform);
+			added = true;
+		}
+	}
+
+	if (!added) {
+		steps.push_back(procedureNode(SYMBOLIC));
+		steps.back().smat = smat;
+	}	
 }
 
 void Procedure::addTranslate(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z)

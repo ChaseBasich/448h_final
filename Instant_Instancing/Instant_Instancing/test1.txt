@@ -3,11 +3,20 @@
 Sphere c
 
 Procedure p1
-Instance c
 Translate [1,2] 0 0
+Rotate Y [0,45]
+Translate [3,4] [1,2] [0,1]
+Rotate X [15,30]
+Translate [3,4] [1,2] [0,1]
+Translate [1,2] 0 0
+Rotate Y [0,45]
+Translate [3,4] [1,2] [0,1]
+Rotate X [15,30]
+Translate [3,4] [1,2] [0,1]
+Instance c
 
 Procedure p2
-Do p1 10
+Do p1 1
 
 Evaluate p2 output
 
