@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Parser.h"
 #include "Cube.h"
+#include "Sphere.h"
 
 using namespace std;
 
@@ -36,6 +37,9 @@ void Parser::parseLine(string &line)
 		return;
 	else if (tokens[0].compare("Cube") == 0) {
 		meshes[tokens[1]] = Cube();
+	}
+	else if (tokens[0].compare("Sphere") == 0) {
+		meshes[tokens[1]] = Sphere(false);
 	}
 	else if (tokens[0].compare("Mesh") == 0) {
 		meshes[tokens[1]] = Mesh(tokens[2]);
