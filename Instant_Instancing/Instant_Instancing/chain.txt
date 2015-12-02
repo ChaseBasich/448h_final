@@ -26,7 +26,7 @@ Translate -9 -5 -5
 Do p4 1
 
 Procedure p6
-Do p5 10
+Do p5 100
 
 
 Evaluate p6 output

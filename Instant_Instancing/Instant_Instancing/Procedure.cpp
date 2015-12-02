@@ -113,7 +113,7 @@ Mesh Procedure::eval()
 	for (size_t i = 0; i < steps.size(); i++) {
 		switch (steps[i].type) {
 			case TRANSFORM:
-				currTransform *= steps[i].transform;
+				currTransform = steps[i].transform * currTransform;
 				break;
 			case INSTANCE:
 			{
@@ -130,16 +130,16 @@ Mesh Procedure::eval()
 			
 				switch (steps[i].type) {
 					case RTRANSLATE:
-						currTransform *= glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
+						currTransform = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z)) * currTransform;
 						break;
 					case RROTATE:
 					{
 						float deg = (float)rand() / RAND_MAX * (steps[i].degVals.second - steps[i].degVals.first) + steps[i].degVals.first;
-						currTransform *= glm::rotate(glm::mat4(1.0f), deg, glm::vec3(x, y, z));
+						currTransform = glm::rotate(glm::mat4(1.0f), deg, glm::vec3(x, y, z)) * currTransform;
 						break;
 					}
 					case RSCALE:
-						currTransform *= glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z));
+						currTransform = glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z)) * currTransform;
 						break;
 				}
 				break;
