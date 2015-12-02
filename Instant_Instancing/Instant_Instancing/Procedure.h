@@ -1,6 +1,7 @@
 #include <vector>
 #include <glm\glm.hpp>
 #include "Mesh.h"
+#include "SymbolicMatrix.h"
 
 using namespace std;
 
@@ -9,16 +10,14 @@ class Procedure{
 public:
 	enum transformType{
 		TRANSFORM,
-		RTRANSLATE,
-		RROTATE,
-		RSCALE,
+		SYMBOLIC,
 		INSTANCE
 	};
 
 	struct procedureNode{
 		transformType type;
 		glm::mat4 transform;
-		pair<float, float> xVals, yVals, zVals, degVals;
+		SymbolicMatrix smat;
 		Mesh *m;
 
 		procedureNode(transformType t): type(t) {}
@@ -42,8 +41,7 @@ public:
 
 private:
 	void applyTransform(glm::mat4 &t);
-	void applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z);
-	void applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z, pair<float, float> &deg);
+	void applyRandomTransform(SymbolicMatrix &smat);
 };
 
 /*
