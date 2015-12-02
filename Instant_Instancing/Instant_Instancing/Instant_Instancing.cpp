@@ -11,6 +11,8 @@
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/PolyMesh_ArrayKernelT.hh>
 
+#include <time.h>
+
 #include "Mesh.h"
 #include "Cube.h"
 #include "Transform.h"
@@ -57,11 +59,15 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	c.Write("output3.off");
 	*/
-
+	clock_t t;
+	t = clock();
 	Parser parser;
-	string file = "C:/Users/VERGIL/Desktop/448h/test1.txt";
+	string file = "test1.txt";
 	parser.parseFile(file);
-	
+	t = clock() - t;
+	printf("It took me %d clicks (%f seconds).\n", t, ((float)t) / CLOCKS_PER_SEC);
+
+	system("pause");
 	return 0;
 }
 

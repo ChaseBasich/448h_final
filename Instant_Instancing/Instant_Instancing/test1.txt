@@ -1,0 +1,34 @@
+#This should make a simple spiral
+
+Cube c
+
+Procedure p1
+Scale 0.2 1 1
+Instance c
+Scale 5 1 1
+Translate .6 0.2 0
+Rotate X 20
+
+Procedure p2
+Do p1 18
+
+Procedure p3
+Rotate Y 90
+Do p2 1
+
+Procedure p4
+Do p3 4
+
+Procedure p5
+Do p4 1
+Rotate X 90
+Translate -9 -5 -5
+Do p4 1
+
+Procedure p6
+Do p5 100
+
+
+Evaluate p5 output
+
+Save output Test.off

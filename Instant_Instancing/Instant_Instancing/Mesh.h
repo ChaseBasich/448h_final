@@ -18,8 +18,11 @@ class Mesh
 {
 public:
 	Mesh();
+	Mesh(string filename);
 	~Mesh();
+
 	void Write(string fileName);
+	void Read(string filename);
 
 	Mesh ApplyMatrix(Transform &t);
 	Mesh ApplyMatrix(mat4 &m);

@@ -38,8 +38,7 @@ void Parser::parseLine(string &line)
 		meshes[tokens[1]] = Cube();
 	}
 	else if (tokens[0].compare("Mesh") == 0) {
-		//ADD MESH CONSTRUCTOR THAT TAKES IN A FILENAME
-		//meshes[tokens[1]] = Mesh(tokens[2]);
+		meshes[tokens[1]] = Mesh(tokens[2]);
 	}
 	else if (tokens[0].compare("Procedure") == 0) {
 		procedures[tokens[1]] = Procedure();

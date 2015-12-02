@@ -6,11 +6,11 @@
 
 void Procedure::applyTransform(glm::mat4 &t)
 {
-	if (steps.size() > 0 && steps[steps.size() - 1].type == TRANSFORM)
-		steps[steps.size() - 1].transform *= t;
+	if (steps.size() > 0 && steps.back().type == TRANSFORM)
+		steps.back().transform = t * steps.back().transform;
 	else {
 		steps.push_back(procedureNode(TRANSFORM));
-		steps[steps.size() - 1].transform = t;
+		steps.back().transform = t;
 	}
 }
 
@@ -112,37 +112,38 @@ Mesh Procedure::eval()
 
 	for (size_t i = 0; i < steps.size(); i++) {
 		switch (steps[i].type) {
-		case TRANSFORM:
-			currTransform *= steps[i].transform;
-			break;
-		case INSTANCE:
-		{
-			Mesh m2(*steps[i].m);
-			m2.ApplyMatrix(currTransform);
-			outMesh.Insert(m2);
-			break;
-		}
-		default:
-		{
-			float x = (float)rand() / RAND_MAX * (steps[i].xVals.second - steps[i].xVals.first) + steps[i].xVals.first;
-			float y = (float)rand() / RAND_MAX * (steps[i].yVals.second - steps[i].yVals.first) + steps[i].yVals.first;
-			float z = (float)rand() / RAND_MAX * (steps[i].zVals.second - steps[i].zVals.first) + steps[i].zVals.first;
-			
-			switch (steps[i].type) {
-			case RTRANSLATE:
-				currTransform *= glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
+			case TRANSFORM:
+				currTransform *= steps[i].transform;
 				break;
-			case RROTATE:
+			case INSTANCE:
 			{
-				float deg = (float)rand() / RAND_MAX * (steps[i].degVals.second - steps[i].degVals.first) + steps[i].degVals.first;
-				currTransform *= glm::rotate(glm::mat4(1.0f), deg, glm::vec3(x, y, z));
+				Mesh m2(*steps[i].m);
+				m2.ApplyMatrix(currTransform);
+				outMesh.Insert(m2);
 				break;
 			}
-			case RSCALE:currTransform *= glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z));
+			default:
+			{
+				float x = (float)rand() / RAND_MAX * (steps[i].xVals.second - steps[i].xVals.first) + steps[i].xVals.first;
+				float y = (float)rand() / RAND_MAX * (steps[i].yVals.second - steps[i].yVals.first) + steps[i].yVals.first;
+				float z = (float)rand() / RAND_MAX * (steps[i].zVals.second - steps[i].zVals.first) + steps[i].zVals.first;
+			
+				switch (steps[i].type) {
+					case RTRANSLATE:
+						currTransform *= glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
+						break;
+					case RROTATE:
+					{
+						float deg = (float)rand() / RAND_MAX * (steps[i].degVals.second - steps[i].degVals.first) + steps[i].degVals.first;
+						currTransform *= glm::rotate(glm::mat4(1.0f), deg, glm::vec3(x, y, z));
+						break;
+					}
+					case RSCALE:
+						currTransform *= glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z));
+						break;
+				}
 				break;
 			}
-			break;
-		}
 		}
 	}
 

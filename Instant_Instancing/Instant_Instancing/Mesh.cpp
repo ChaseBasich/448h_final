@@ -77,10 +77,6 @@ Mesh Mesh::Insert(Mesh &m) {
 	return *this;
 }
 
-Mesh::Mesh()
-{
-}
-
 void Mesh::Write(string fileName) {
 	// write mesh to fileName
 	try
@@ -94,6 +90,28 @@ void Mesh::Write(string fileName) {
 	{
 		std::cerr << x.what() << std::endl;
 	}
+}
+
+void Mesh::Read(string filename) {
+	try
+	{
+		if (!OpenMesh::IO::read_mesh(mesh, filename))
+		{
+			std::cerr << "Error loading mesh from file " << filename << std::endl;
+		}
+	} 
+	catch (std::exception& x)
+	{
+		std::cerr << x.what() << std::endl;
+	}
+}
+
+Mesh::Mesh(string filename) {
+	Read(filename);
+}
+
+Mesh::Mesh()
+{
 }
 
 Mesh::~Mesh()
