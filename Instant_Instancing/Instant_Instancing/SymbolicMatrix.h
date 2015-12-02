@@ -23,6 +23,9 @@ public:
 	SymbolicMatrix RotateY(double min, double max);
 	SymbolicMatrix RotateZ(double min, double max);
 
+	SymbolicMatrix Translate(double minX, double maxX, double minY, double maxY, double minZ, double maxZ);
+	SymbolicMatrix Scale(double minX, double maxX, double minY, double maxY, double minZ, double maxZ);
+
 	glm::mat4 Eval();
 
 	SymbolicMatrix operator* (SymbolicMatrix &m);

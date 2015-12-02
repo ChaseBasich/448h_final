@@ -5,6 +5,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "exprtk\exprtk.hpp"
+#include <iostream>
 
 typedef exprtk::symbol_table<double> symbol_table_t;
 typedef exprtk::expression<double> expression_t;
@@ -32,9 +33,9 @@ SymbolicMatrix SymbolicMatrix::operator* (SymbolicMatrix &m) {
 			string result = "(";
 
 			for (int x = 0; x < NUM_ROWS; x++) {
-				result += "(" + entries[i * NUM_ROWS + x];
+				result += "(" + m.entries[i * NUM_ROWS + x];
 				result += ")*(";
-				result += m.entries[n + x * NUM_ROWS] + ")";
+				result += entries[n + x * NUM_ROWS] + ")";
 				if (x < NUM_ROWS - 1)
 				{
 					result += "+";
@@ -78,6 +79,118 @@ double SymbolicMatrix::toRadians(double angle) {
 	return angle * M_PI / 180;
 }
 
+SymbolicMatrix SymbolicMatrix::Scale(double minX, double maxX, double minY, double maxY, double minZ, double maxZ) {
+	string xName, yName, zName;
+	SymbolicMatrix copy(*this);
+
+	if (minX == maxX) {
+		xName = to_string(minX);
+	}
+	else {
+		int index = rand();
+		while (symbols.find(index) != symbols.end()) {
+			index = rand();
+		}
+
+		copy.symbols.insert(pair<int, Symbol>(index, Symbol(index, minX, maxX)));
+		xName = "(s" + to_string(index) + ")";
+	}
+
+	if (minY == maxY) {
+		yName = to_string(minY);
+	}
+	else {
+		int index = rand();
+		while (symbols.find(index) != symbols.end()) {
+			index = rand();
+		}
+
+		copy.symbols.insert(pair<int, Symbol>(index, Symbol(index, minY, maxY)));
+		yName = "(s" + to_string(index) + ")";
+	}
+
+	if (minZ == maxZ) {
+		zName = to_string(minZ);
+	}
+	else {
+		int index = rand();
+		while (symbols.find(index) != symbols.end()) {
+			index = rand();
+		}
+
+		copy.symbols.insert(pair<int, Symbol>(index, Symbol(index, minZ, maxZ)));
+		zName = "(s" + to_string(index) + ")";
+	}
+
+	string newEntries[16] = {
+		xName, "0", "0", "0",
+		"0", yName, "0", "0",
+		"0", "0", zName, "0",
+		"0", "0", "0", "1"
+	};
+
+	SymbolicMatrix temp(newEntries);
+	copy = temp * copy;
+
+	return copy;
+}
+
+SymbolicMatrix SymbolicMatrix::Translate(double minX, double maxX, double minY, double maxY, double minZ, double maxZ) {
+	string xName, yName, zName;
+	SymbolicMatrix copy(*this);
+
+	if (minX == maxX) {
+		xName = to_string(minX);
+	}
+	else {
+		int index = rand();
+		while (symbols.find(index) != symbols.end()) {
+			index = rand();
+		}
+
+		copy.symbols.insert(pair<int, Symbol>(index, Symbol(index, minX, maxX)));
+		xName = "(s" + to_string(index) + ")";
+	}
+
+	if (minY == maxY) {
+		yName = to_string(minY);
+	}
+	else {
+		int index = rand();
+		while (symbols.find(index) != symbols.end()) {
+			index = rand();
+		}
+
+		copy.symbols.insert(pair<int, Symbol>(index, Symbol(index, minY, maxY)));
+		yName = "(s" + to_string(index) + ")";
+	}
+
+	if (minZ == maxZ) {
+		zName = to_string(minZ);
+	}
+	else {
+		int index = rand();
+		while (symbols.find(index) != symbols.end()) {
+			index = rand();
+		}
+
+		copy.symbols.insert(pair<int, Symbol>(index, Symbol(index, minZ, maxZ)));
+		zName = "(s" + to_string(index) + ")";
+	}
+
+	string newEntries[16] = {
+		"1", "0", "0", xName,
+		"0", "1", "0", yName,
+		"0", "0", "1", zName,
+		"0", "0", "0", "1"
+	};
+
+	SymbolicMatrix temp(newEntries);
+	copy = temp * copy;
+
+	return copy;
+}
+
 SymbolicMatrix SymbolicMatrix::RotateX(double min, double max) {
 	SymbolicMatrix copy(*this);
 
@@ -96,8 +209,8 @@ SymbolicMatrix SymbolicMatrix::RotateX(double min, double max) {
 
 	string newEntries[16] = {
 		"1", "0", "0", "0",
-		"0", cos , sin, "0",
-		"0", sin, "-" + cos, "0",
+		"0", cos , "-" + sin, "0",
+		"0", sin, cos, "0",
 		"0", "0", "0", "1"
 	};
 
@@ -124,9 +237,9 @@ SymbolicMatrix SymbolicMatrix::RotateY(double min, double max) {
 	string sin = "sin(" + name + ")";
 
 	string newEntries[16] = {
-		cos, "0", sin, "0",
+		cos, "0", "-" + sin, "0",
 		"0", "1", "0", "0",
-		sin, "0", "-" + cos, "0",
+		sin, "0", cos, "0",
 		"0", "0", "0", "1"
 	};
 
@@ -153,8 +266,8 @@ SymbolicMatrix SymbolicMatrix::RotateZ(double min, double max) {
 	string sin = "sin(" + name + ")";
 
 	string newEntries[16] = {
-		cos, sin, "0", "0",
-		sin, "-" + cos, "0", "0",
+		cos, "-" + sin, "0", "0",
+		sin, cos, "0", "0",
 		"0", "0", "1", "0",
 		"0", "0", "0", "1"
 	};
@@ -216,6 +329,9 @@ string SymbolicMatrix::replaceTrig(string equation) {
 */
 
 double SymbolicMatrix::evaluateString(string equation) {
+#ifdef DEBUG
+	cout << equation << endl;
+#endif
 
 	symbol_table_t symbol_table;
 	for (auto it = symbols.begin(); it != symbols.end(); it++) {
@@ -236,11 +352,11 @@ double SymbolicMatrix::evaluateString(string equation) {
 
 glm::mat4 SymbolicMatrix::Eval(){
 	glm::mat4 results;
-	for (int i = 0; i < 16; i++) {
-		//column first for mat4
-		int col = i % 4;
-		int row = i / 4;
-		results[col][row] = evaluateString(entries[i]);
+	for (int i = 0; i < 4; i++) {
+		for (int n = 0; n < 4; n++) {
+			//column first for mat4
+			results[n][i] = evaluateString(entries[i * 4 + n]);
+		}
 	}
 	//reset the random values after evaluating
 	for (auto it = symbols.begin(); it != symbols.end(); it++) {
