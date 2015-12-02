@@ -12,6 +12,7 @@ Rotate X 20
 Procedure p2
 Do p1 18
 
+
 Procedure p3
 Rotate Y 90
 Do p2 1
@@ -19,15 +20,15 @@ Do p2 1
 Procedure p4
 Do p3 4
 
+Evaluate p4 link
+
 Procedure p5
-Do p4 1
+Instance link
 Rotate X 90
 Translate -9 -5 -5
-Do p4 1
 
 Procedure p6
-Do p5 100
-
+Do p5 400
 
 Evaluate p6 output
 

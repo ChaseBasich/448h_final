@@ -16,15 +16,15 @@ void Procedure::applyTransform(glm::mat4 &t)
 
 void Procedure::applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z)
 {
-	steps[steps.size() - 1].xVals = x;
-	steps[steps.size() - 1].yVals = y;
-	steps[steps.size() - 1].zVals = z;
+	steps.back().xVals = x;
+	steps.back().yVals = y;
+	steps.back().zVals = z;
 }
 
 void Procedure::applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z, pair<float, float> &deg)
 {
 	applyRandomTransform(x, y, z);
-	steps[steps.size() - 1].degVals = deg;
+	steps.back().degVals = deg;
 }
 
 void Procedure::addTranslate(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z)
@@ -86,7 +86,7 @@ void Procedure::addInstance(Mesh &m)
 	}
 	else {
 		steps.push_back(procedureNode(INSTANCE));
-		steps[steps.size() - 1].m = &m;
+		steps.back().m = &m;
 	}
 }
 
@@ -106,6 +106,12 @@ void Procedure::addProcedure(Procedure &p, int n = 1)
 
 Mesh Procedure::eval()
 {
+	if (nonRandom) {
+		//if there is no randomness, mesh is already up to date
+		return nonRandomMesh;
+	}
+
+
 	Mesh outMesh;
 	outMesh.Insert(nonRandomMesh);
 	glm::mat4 currTransform = glm::mat4();
