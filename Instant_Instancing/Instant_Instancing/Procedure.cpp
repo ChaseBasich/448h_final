@@ -14,11 +14,17 @@ void Procedure::applyTransform(glm::mat4 &t)
 	}
 }
 
-void Procedure::applyRandomTransform(SymbolicMatrix &smat)
+void Procedure::applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z)
 {
-	nonRandom = false;
-	steps.push_back(SYMBOLIC);
-	steps.back().smat = smat;
+	steps.back().xVals = x;
+	steps.back().yVals = y;
+	steps.back().zVals = z;
+}
+
+void Procedure::applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z, pair<float, float> &deg)
+{
+	applyRandomTransform(x, y, z);
+	steps.back().degVals = deg;
 }
 
 void Procedure::addTranslate(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z)
@@ -29,9 +35,9 @@ void Procedure::addTranslate(pair<float, float> &x, pair<float, float> &y, pair<
 		applyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(x.first, y.first, z.first)));
 	}
 	else {
-		SymbolicMatrix smat;
-		smat = smat.Translate(x.first, x.second, y.first, y.second, z.first, z.second);
-		applyRandomTransform(smat);
+		nonRandom = false;
+		steps.push_back(procedureNode(RTRANSLATE));
+		applyRandomTransform(x, y, z);
 	}
 }
 
@@ -48,26 +54,8 @@ void Procedure::addRotate(pair<float, float> &x, pair<float, float> &y, pair<flo
 	}
 	else {
 		nonRandom = false;
-		SymbolicMatrix smat;
-		if (x.first != 0 && x.second != 0 &&
-			y.first == 0 && y.second == 0 &&
-			z.first == 0 && z.second == 0) {
-			smat = smat.RotateX(deg.first, deg.second);
-		}
-		else if (x.first == 0 && x.second == 0 &&
-				 y.first != 0 && y.second != 0 &&
-				 z.first == 0 && z.second == 0) {
-			SymbolicMatrix smat;
-			smat = smat.RotateY(deg.first, deg.second);
-		}
-		else if (x.first == 0 && x.second == 0 &&
-				 y.first == 0 && y.second == 0 &&
-				 z.first != 0 && z.second != 0) {
-			SymbolicMatrix smat;
-			smat = smat.RotateZ(deg.first, deg.second);
-		}
-
-		applyRandomTransform(smat);
+		steps.push_back(procedureNode(RROTATE));
+		applyRandomTransform(x, y, z, deg);
 	}
 }
 
@@ -79,9 +67,9 @@ void Procedure::addScale(pair<float, float> &x, pair<float, float> &y, pair<floa
 		applyTransform(glm::scale(glm::mat4(1.0f), glm::vec3(x.first, y.first, z.first)));
 	}
 	else {
-		SymbolicMatrix smat;
-		smat = smat.Scale(x.first, x.second, y.first, y.second, z.first, z.second);
-		applyRandomTransform(smat);
+		nonRandom = false;
+		steps.push_back(procedureNode(RSCALE));
+		applyRandomTransform(x, y, z);
 	}
 }
 
@@ -140,9 +128,27 @@ Mesh Procedure::eval()
 				outMesh.Insert(m2);
 				break;
 			}
-			case SYMBOLIC:
+			default:
 			{
-				currTransform = steps[i].smat.Eval() * currTransform;
+				float x = (float)rand() / RAND_MAX * (steps[i].xVals.second - steps[i].xVals.first) + steps[i].xVals.first;
+				float y = (float)rand() / RAND_MAX * (steps[i].yVals.second - steps[i].yVals.first) + steps[i].yVals.first;
+				float z = (float)rand() / RAND_MAX * (steps[i].zVals.second - steps[i].zVals.first) + steps[i].zVals.first;
+			
+				switch (steps[i].type) {
+					case RTRANSLATE:
+						currTransform = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z)) * currTransform;
+						break;
+					case RROTATE:
+					{
+						float deg = (float)rand() / RAND_MAX * (steps[i].degVals.second - steps[i].degVals.first) + steps[i].degVals.first;
+						currTransform = glm::rotate(glm::mat4(1.0f), deg, glm::vec3(x, y, z)) * currTransform;
+						break;
+					}
+					case RSCALE:
+						currTransform = glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z)) * currTransform;
+						break;
+				}
+				break;
 			}
 		}
 	}
