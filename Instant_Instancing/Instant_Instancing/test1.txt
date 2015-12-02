@@ -1,6 +1,6 @@
 #This should make a simple spiral
 
-Cube c
+Sphere c
 
 Procedure p1
 Scale 0.2 1 1
