@@ -62,7 +62,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	clock_t t;
 	t = clock();
 	Parser parser;
-	string file = "helix.txt";
+	string file = "tendrilcube.txt";
 	parser.parseFile(file);
 	t = clock() - t;
 	printf("It took me %d clicks (%f seconds).\n", t, ((float)t) / CLOCKS_PER_SEC);

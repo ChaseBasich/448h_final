@@ -3,10 +3,10 @@
 Cube c
 
 Procedure tendrilHelper
+Instance c
 Rotate X [357,363]
 Rotate Y [357,363]
 Rotate Z [357,363]
-Instance c
 Translate 3 0 0
 
 Procedure tendril

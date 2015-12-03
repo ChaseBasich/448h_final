@@ -77,8 +77,8 @@ void Procedure::addScale(pair<float, float> &x, pair<float, float> &y, pair<floa
 
 void Procedure::addInstance(Mesh &m)
 {
-	if (nonRandom){
-		if (firstTransformPos < 0 && !hasProcedureNodes)
+	if (nonRandom && !hasProcedureNodes){
+		if (firstTransformPos < 0)
 			nonRandomMesh.Insert(m);
 		else {
 			Mesh m2(m);
