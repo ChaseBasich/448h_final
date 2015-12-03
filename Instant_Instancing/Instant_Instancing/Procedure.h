@@ -12,7 +12,8 @@ public:
 		RTRANSLATE,
 		RROTATE,
 		RSCALE,
-		INSTANCE
+		INSTANCE,
+		PROCEDURE
 	};
 
 	struct procedureNode{
@@ -20,11 +21,14 @@ public:
 		glm::mat4 transform;
 		pair<float, float> xVals, yVals, zVals, degVals;
 		Mesh *m;
+		Procedure *p;
+		int pnmin;
+		int pnmax;
 
-		procedureNode(transformType t): type(t) {}
+		procedureNode(transformType t): type(t), pnmin(-1), pnmax(-1) {}
 	};
 
-	Procedure() : nonRandom(true) {}
+	Procedure() : nonRandom(true), firstTransformPos(-1) {}
 	~Procedure() {}
 
 	void addTranslate(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z);
@@ -32,9 +36,9 @@ public:
 	void addScale(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z);
 
 	void addInstance(Mesh &m);
-	void addProcedure(Procedure &p, int n);
+	void addProcedure(Procedure &p, int n, int nmax, bool pre_eval = false);
 
-	Mesh eval();
+	Mesh eval(glm::mat4 *result = nullptr);
 
 	vector<procedureNode> steps;
 	bool nonRandom;
@@ -44,6 +48,8 @@ private:
 	void applyTransform(glm::mat4 &t);
 	void applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z);
 	void applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z, pair<float, float> &deg);
+
+	int firstTransformPos;
 };
 
 /*

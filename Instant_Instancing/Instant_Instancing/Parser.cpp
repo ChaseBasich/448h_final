@@ -71,10 +71,16 @@ void Parser::parseLine(string &line)
 		currProcedure->addInstance(meshes[tokens[1]]);
 	}
 	else if (tokens[0].compare("Do") == 0) {
-		int n = 1;
+		pair<float, float> n(1, 1);
 		if (tokens.size() == 3)
-			n = atoi(tokens[2].c_str());
-		currProcedure->addProcedure(procedures[tokens[1]], n);
+			n = parseVal(tokens[2]);
+		currProcedure->addProcedure(procedures[tokens[1]], n.first, n.second, false);
+	}
+	else if (tokens[0].compare("Add") == 0) {
+		pair<float, float> n(1, 1);
+		if (tokens.size() == 3)
+			n = parseVal(tokens[2]);
+		currProcedure->addProcedure(procedures[tokens[1]], n.first, n.second, true);
 	}
 	else if (tokens[0].compare("Evaluate") == 0) {
 		meshes[tokens[2]] = procedures[tokens[1]].eval();

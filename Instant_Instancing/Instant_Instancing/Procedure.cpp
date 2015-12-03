@@ -9,6 +9,8 @@ void Procedure::applyTransform(glm::mat4 &t)
 	if (steps.size() > 0 && steps.back().type == TRANSFORM)
 		steps.back().transform = t * steps.back().transform;
 	else {
+		if (firstTransformPos < 0)
+			firstTransformPos = steps.size();
 		steps.push_back(procedureNode(TRANSFORM));
 		steps.back().transform = t;
 	}
@@ -76,11 +78,11 @@ void Procedure::addScale(pair<float, float> &x, pair<float, float> &y, pair<floa
 void Procedure::addInstance(Mesh &m)
 {
 	if (nonRandom){
-		if (steps.size() == 0)
+		if (firstTransformPos < 0)
 			nonRandomMesh.Insert(m);
 		else {
 			Mesh m2(m);
-			m2.ApplyMatrix(steps[0].transform);
+			m2.ApplyMatrix(steps[firstTransformPos].transform);
 			nonRandomMesh.Insert(m2);
 		}
 	}
@@ -90,27 +92,37 @@ void Procedure::addInstance(Mesh &m)
 	}
 }
 
-void Procedure::addProcedure(Procedure &p, int n = 1)
+void Procedure::addProcedure(Procedure &p, int n = 1, int nmax = 1, bool pre_eval)
 {
-	nonRandom = nonRandom && p.nonRandom;
+	if (n != nmax){
+		steps.push_back(procedureNode(PROCEDURE));
+		steps.back().p = &p;
+		steps.back().pnmin = n;
+		steps.back().pnmax = nmax;
+	}
 	steps.reserve(steps.size() + n * p.steps.size());
 	for (int i = 0; i < n; i++) {
-		addInstance(p.nonRandomMesh);
-		
-		if (nonRandom &&steps.size() != 0 && p.steps.size() != 0)
-			steps[0].transform *= p.steps[0].transform;
-		else
-			steps.insert(steps.end(), p.steps.begin(), p.steps.end());
+		if (pre_eval){
+			steps.push_back(procedureNode(PROCEDURE));
+			steps.back().p = &p;
+		}
+		else {
+			addInstance(p.nonRandomMesh);
+
+			if (nonRandom && firstTransformPos > 0 && p.firstTransformPos > 0)
+				steps[firstTransformPos].transform = p.steps[p.firstTransformPos].transform * steps[firstTransformPos].transform;
+			else
+				steps.insert(steps.end(), p.steps.begin(), p.steps.end());
+		}
 	}
 }
 
-Mesh Procedure::eval()
+Mesh Procedure::eval(glm::mat4 *result)
 {
-	if (nonRandom) {
+	if (nonRandom && (steps.size() == 0 || (steps.size() == 1 && steps[0].type == TRANSFORM))) {
 		//if there is no randomness, mesh is already up to date
 		return nonRandomMesh;
 	}
-
 
 	Mesh outMesh;
 	outMesh.Insert(nonRandomMesh);
@@ -126,6 +138,25 @@ Mesh Procedure::eval()
 				Mesh m2(*steps[i].m);
 				m2.ApplyMatrix(currTransform);
 				outMesh.Insert(m2);
+				break;
+			}
+			case PROCEDURE:
+			{
+				if (steps[i].pnmin < 0){
+					Mesh m = steps[i].p->eval();
+					m.ApplyMatrix(currTransform);
+					outMesh.Insert(m);
+				}
+				else{
+					int num = (float)rand() / RAND_MAX * (steps[i].pnmax - steps[i].pnmin) + steps[i].pnmin;
+					for (int j = 0; j < num; j++){
+						glm::mat4 pTransform;
+						Mesh m = steps[i].p->eval(&pTransform);
+						m.ApplyMatrix(currTransform);
+						outMesh.Insert(m);
+						currTransform = pTransform * currTransform;
+					}
+				}
 				break;
 			}
 			default:
@@ -152,6 +183,9 @@ Mesh Procedure::eval()
 			}
 		}
 	}
+
+	if (result != nullptr)
+		*result = currTransform;
 
 	return outMesh;
 }

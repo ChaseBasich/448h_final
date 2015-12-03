@@ -1,20 +1,31 @@
 #This should make a simple spiral
 
-Sphere c
+Cube c
 
-Procedure p1
-Scale 0.2 1 1
+Procedure tendrilHelper
+Rotate X [357,363]
+Rotate Y [357,363]
+Rotate Z [357,363]
 Instance c
-Scale 5 1 1
-Translate 3 3 3
-Instance c
-Translate -3 -3 -3
-Translate .6 0.2 0
-Rotate X 20
+Translate 3 0 0
 
-Procedure p2
-Do p1 36
+Procedure tendril
+Do tendrilHelper [5,20]
 
-Evaluate p2 output
+Procedure rowHelper
+Add tendril
+Translate 0 3 0
+
+Procedure row
+Do rowHelper 10
+
+Procedure cubeHelper
+Add row
+Translate 0 0 3
+
+Procedure cube
+Do cubeHelper 10
+
+Evaluate cube output
 
 Save output Test.off
