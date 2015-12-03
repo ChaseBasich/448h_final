@@ -1,0 +1,17 @@
+#Creates a helix
+
+Cube c
+
+Procedure p1
+Scale 0.25 1 1
+Instance c
+Scale 4 1 1
+Translate 1 1 0
+Rotate X 20
+
+Procedure p2
+Do p1 37
+
+Evaluate p2 output
+
+Save output Test.off

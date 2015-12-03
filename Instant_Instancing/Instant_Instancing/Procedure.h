@@ -28,7 +28,7 @@ public:
 		procedureNode(transformType t): type(t), pnmin(-1), pnmax(-1) {}
 	};
 
-	Procedure() : nonRandom(true), firstTransformPos(-1) {}
+	Procedure() : nonRandom(true), firstTransformPos(-1), hasProcedureNodes(false) {}
 	~Procedure() {}
 
 	void addTranslate(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z);
@@ -50,6 +50,7 @@ private:
 	void applyRandomTransform(pair<float, float> &x, pair<float, float> &y, pair<float, float> &z, pair<float, float> &deg);
 
 	int firstTransformPos;
+	bool hasProcedureNodes;
 };
 
 /*

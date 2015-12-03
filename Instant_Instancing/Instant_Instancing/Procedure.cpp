@@ -78,7 +78,7 @@ void Procedure::addScale(pair<float, float> &x, pair<float, float> &y, pair<floa
 void Procedure::addInstance(Mesh &m)
 {
 	if (nonRandom){
-		if (firstTransformPos < 0)
+		if (firstTransformPos < 0 && !hasProcedureNodes)
 			nonRandomMesh.Insert(m);
 		else {
 			Mesh m2(m);
@@ -94,7 +94,10 @@ void Procedure::addInstance(Mesh &m)
 
 void Procedure::addProcedure(Procedure &p, int n = 1, int nmax = 1, bool pre_eval)
 {
+	hasProcedureNodes |= p.hasProcedureNodes;
 	if (n != nmax){
+		nonRandom = false;
+		hasProcedureNodes = true;
 		steps.push_back(procedureNode(PROCEDURE));
 		steps.back().p = &p;
 		steps.back().pnmin = n;
@@ -103,16 +106,30 @@ void Procedure::addProcedure(Procedure &p, int n = 1, int nmax = 1, bool pre_eva
 	steps.reserve(steps.size() + n * p.steps.size());
 	for (int i = 0; i < n; i++) {
 		if (pre_eval){
+			hasProcedureNodes = true;
 			steps.push_back(procedureNode(PROCEDURE));
 			steps.back().p = &p;
 		}
 		else {
 			addInstance(p.nonRandomMesh);
 
+			if (firstTransformPos < 0 && p.firstTransformPos >= 0)
+				firstTransformPos = steps.size() + p.firstTransformPos;
+
+			auto copyBegin = p.steps.begin();
+			if (p.steps.size() > 0 && p.steps[0].type == TRANSFORM && steps.size() > 0 && steps.back().type == TRANSFORM){
+				copyBegin++;
+				steps.back().transform = p.steps[0].transform * steps.back().transform;
+			}
+
+			steps.insert(steps.end(), copyBegin, p.steps.end());
+
+			/*
 			if (nonRandom && firstTransformPos > 0 && p.firstTransformPos > 0)
 				steps[firstTransformPos].transform = p.steps[p.firstTransformPos].transform * steps[firstTransformPos].transform;
 			else
 				steps.insert(steps.end(), p.steps.begin(), p.steps.end());
+			*/
 		}
 	}
 }
